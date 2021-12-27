@@ -2,6 +2,7 @@ package com.exercise.fullstackinterview.service;
 
 import com.exercise.fullstackinterview.dto.BranchDto;
 import com.exercise.fullstackinterview.dto.CommitDto;
+import com.exercise.fullstackinterview.dto.PullRequestDto;
 import com.exercise.fullstackinterview.dto.SimpleCommitDto;
 import com.exercise.fullstackinterview.mapper.ResponseMapper;
 import com.exercise.fullstackinterview.model.commit.CommitResponse;
@@ -46,6 +47,11 @@ public class GitService {
 
   public Mono<CommitDto> getCommit(String sha) {
     return gitWebClient.getCommit(sha).map(response -> responseMapper.commitToDto(response));
+  }
+
+  public Flux<PullRequestDto> getPullRequestDto() {
+    return gitWebClient.getPullRequest()
+        .map(pullRequest -> responseMapper.pullRequestToDto(pullRequest));
   }
 
   private void getCommitResponse(CommitResponse commitResponse, List<SimpleCommitDto> commits,

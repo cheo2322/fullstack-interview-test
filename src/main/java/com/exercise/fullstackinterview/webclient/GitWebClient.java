@@ -3,6 +3,7 @@ package com.exercise.fullstackinterview.webclient;
 import com.exercise.fullstackinterview.model.branches.Branch;
 import com.exercise.fullstackinterview.model.commit.CommitResponse;
 import com.exercise.fullstackinterview.model.error.GitError;
+import com.exercise.fullstackinterview.model.pullrequest.PullRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Component;
@@ -40,6 +41,11 @@ public class GitWebClient {
   public Mono<CommitResponse> getCommit(String branch) {
     return get("/commits/".concat(branch))
         .bodyToMono(CommitResponse.class);
+  }
+
+  public Flux<PullRequest> getPullRequest() {
+    return get("/pulls")
+        .bodyToFlux(PullRequest.class);
   }
 
   private ResponseSpec get(String uri) {

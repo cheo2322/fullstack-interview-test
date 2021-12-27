@@ -2,6 +2,7 @@ package com.exercise.fullstackinterview.controller;
 
 import com.exercise.fullstackinterview.dto.BranchDto;
 import com.exercise.fullstackinterview.dto.CommitDto;
+import com.exercise.fullstackinterview.dto.PullRequestDto;
 import com.exercise.fullstackinterview.dto.SimpleCommitDto;
 import com.exercise.fullstackinterview.service.GitService;
 import java.util.List;
@@ -45,5 +46,12 @@ public class GitController {
   @ResponseStatus(HttpStatus.OK)
   public Mono<CommitDto> getCommit(@PathVariable String sha) {
     return gitService.getCommit(sha);
+  }
+
+  @GetMapping("/pulls")
+  @ResponseBody
+  @ResponseStatus(HttpStatus.OK)
+  public Flux<PullRequestDto> getPulls() {
+    return gitService.getPullRequestDto();
   }
 }
