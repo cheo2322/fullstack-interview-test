@@ -51,7 +51,15 @@ public class GitService {
   }
 
   public Flux<PullRequestDto> getPullRequestDto(String user, String repo, String token) {
-    return gitWebClient.getPullRequest(user, repo, token)
+    return gitWebClient.getPullRequest(user, repo, token, "")
+        .expand(pullRequest -> {
+          if (pullRequest.getNumber() <= 1) {
+            return Flux.just();
+          }
+
+          return gitWebClient.getPullRequest(user, repo, token, "/".concat(
+              String.valueOf(pullRequest.getNumber() - 1)));
+        })
         .map(pullRequest -> responseMapper.pullRequestToDto(pullRequest));
   }
 

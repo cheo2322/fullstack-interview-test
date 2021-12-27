@@ -46,8 +46,8 @@ public class GitWebClient {
         .bodyToMono(CommitResponse.class);
   }
 
-  public Flux<PullRequest> getPullRequest(String user, String repo, String token) {
-    return get("/pulls", user, repo, token)
+  public Flux<PullRequest> getPullRequest(String user, String repo, String token, String number) {
+    return get("/pulls".concat(number), user, repo, token)
         .bodyToFlux(PullRequest.class);
   }
 
@@ -56,7 +56,8 @@ public class GitWebClient {
         .retrieve()
         .onStatus(HttpStatus::isError, clientResponse -> clientResponse.bodyToMono(GitError.class)
             .flatMap(errorBody ->
-                Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST)))
+                Mono.error(new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    errorBody.getDocumentation_url())))
         );
   }
 }
