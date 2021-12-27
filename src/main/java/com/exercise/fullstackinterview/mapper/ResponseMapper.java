@@ -8,7 +8,6 @@ import com.exercise.fullstackinterview.model.commit.CommitResponse;
 import com.exercise.fullstackinterview.model.commit.File;
 import com.exercise.fullstackinterview.model.pullrequest.PullRequest;
 import java.util.List;
-import jdk.jfr.Name;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -41,7 +40,7 @@ public interface ResponseMapper {
   @Mapping(source = "state", target = "status", qualifiedByName = "getStatus")
   PullRequestDto pullRequestToDto(PullRequest pullRequest);
 
-  @Name("getStatus")
+  @Named("getStatus")
   static Status getStatus(String state) {
     if (state.equals("open")) {
       return Status.OPEN;
