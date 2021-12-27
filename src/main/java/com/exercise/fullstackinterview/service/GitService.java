@@ -30,8 +30,8 @@ public class GitService {
   @Autowired
   ResponseMapper responseMapper;
 
-  public Flux<BranchDto> getAllBranches() {
-    return gitWebClient.getAllBranches()
+  public Flux<BranchDto> getAllBranches(String user, String repo, String token) {
+    return gitWebClient.getAllBranches(user, repo, token)
         .map(branch -> BranchDto.builder().name(branch.name).build());
   }
 
@@ -45,12 +45,13 @@ public class GitService {
     return commits;
   }
 
-  public Mono<CommitDto> getCommit(String sha) {
-    return gitWebClient.getCommit(sha).map(response -> responseMapper.commitToDto(response));
+  public Mono<CommitDto> getCommit(String sha, String user, String repo, String token) {
+    return gitWebClient.getCommit(sha, user, repo, token)
+        .map(response -> responseMapper.commitToDto(response));
   }
 
-  public Flux<PullRequestDto> getPullRequestDto() {
-    return gitWebClient.getPullRequest()
+  public Flux<PullRequestDto> getPullRequestDto(String user, String repo, String token) {
+    return gitWebClient.getPullRequest(user, repo, token)
         .map(pullRequest -> responseMapper.pullRequestToDto(pullRequest));
   }
 

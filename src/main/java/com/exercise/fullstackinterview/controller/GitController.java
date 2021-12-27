@@ -26,11 +26,12 @@ public class GitController {
   @Autowired
   GitService gitService;
 
-  @GetMapping("/initial")
+  @GetMapping("/branches")
   @ResponseBody
   @ResponseStatus(HttpStatus.OK)
-  public Flux<BranchDto> getAllBranches() {
-    return gitService.getAllBranches();
+  public Flux<BranchDto> getAllBranches(@RequestParam String user, @RequestParam String repo,
+      @RequestHeader String token) {
+    return gitService.getAllBranches(user, repo, token);
   }
 
   @GetMapping("/commits")
@@ -44,14 +45,16 @@ public class GitController {
   @GetMapping("/commits/{sha}")
   @ResponseBody
   @ResponseStatus(HttpStatus.OK)
-  public Mono<CommitDto> getCommit(@PathVariable String sha) {
-    return gitService.getCommit(sha);
+  public Mono<CommitDto> getCommit(@PathVariable String sha, @RequestParam String user,
+      @RequestParam String repo, @RequestHeader String token) {
+    return gitService.getCommit(sha, user, repo, token);
   }
 
   @GetMapping("/pulls")
   @ResponseBody
   @ResponseStatus(HttpStatus.OK)
-  public Flux<PullRequestDto> getPulls() {
-    return gitService.getPullRequestDto();
+  public Flux<PullRequestDto> getPulls(@RequestParam String user, @RequestParam String repo,
+      @RequestHeader String token) {
+    return gitService.getPullRequestDto(user, repo, token);
   }
 }

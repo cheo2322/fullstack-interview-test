@@ -22,34 +22,37 @@ public class GitWebClient {
 
   protected GitWebClient() {
     this.webClient = WebClient.builder()
-        .baseUrl("https://api.github.com/repos/cheo2322/fullstack-interview-test")
+        .baseUrl("https://api.github.com")
         .clientConnector(new ReactorClientHttpConnector(HttpClient.newConnection().compress(true)))
         .build();
   }
 
-  protected WebClient.RequestBodySpec setUpGetWebClient(String uri) {
+  protected WebClient.RequestBodySpec setUpGetWebClient(String uri, String user, String repo,
+      String token) {
     return (RequestBodySpec) this.webClient
         .get()
-        .uri(uriBuilder -> uriBuilder.path(uri).build());
+        .uri(uriBuilder -> uriBuilder.path("/repos/{user}/{repo}".concat(uri)).build(user, repo))
+        .headers(
+            httpHeaders -> httpHeaders.setBearerAuth(token));
   }
 
-  public Flux<Branch> getAllBranches() {
-    return get("/branches")
+  public Flux<Branch> getAllBranches(String user, String repo, String token) {
+    return get("/branches", user, repo, token)
         .bodyToFlux(Branch.class);
   }
 
-  public Mono<CommitResponse> getCommit(String branch) {
-    return get("/commits/".concat(branch))
+  public Mono<CommitResponse> getCommit(String branch, String user, String repo, String token) {
+    return get("/commits/".concat(branch), user, repo, token)
         .bodyToMono(CommitResponse.class);
   }
 
-  public Flux<PullRequest> getPullRequest() {
-    return get("/pulls")
+  public Flux<PullRequest> getPullRequest(String user, String repo, String token) {
+    return get("/pulls", user, repo, token)
         .bodyToFlux(PullRequest.class);
   }
 
-  private ResponseSpec get(String uri) {
-    return setUpGetWebClient(uri)
+  private ResponseSpec get(String uri, String user, String repo, String token) {
+    return setUpGetWebClient(uri, user, repo, token)
         .retrieve()
         .onStatus(HttpStatus::isError, clientResponse -> clientResponse.bodyToMono(GitError.class)
             .flatMap(errorBody ->
