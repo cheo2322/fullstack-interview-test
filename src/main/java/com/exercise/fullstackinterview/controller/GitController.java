@@ -5,7 +5,6 @@ import com.exercise.fullstackinterview.dto.CommitDto;
 import com.exercise.fullstackinterview.dto.PullRequestDto;
 import com.exercise.fullstackinterview.dto.SimpleCommitDto;
 import com.exercise.fullstackinterview.service.GitService;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,9 +36,9 @@ public class GitController {
   @GetMapping("/commits")
   @ResponseBody
   @ResponseStatus(HttpStatus.OK)
-  public List<SimpleCommitDto> getCommits(@RequestParam String branch,
-      @RequestHeader String token) {
-    return gitService.getCommits(branch, token);
+  public Flux<SimpleCommitDto> getCommits(@RequestParam String branch, @RequestParam String user,
+      @RequestParam String repo, @RequestHeader String token) {
+    return gitService.get(branch, user, repo, token);
   }
 
   @GetMapping("/commits/{sha}")
