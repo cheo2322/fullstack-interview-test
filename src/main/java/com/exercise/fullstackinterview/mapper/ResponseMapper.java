@@ -36,7 +36,7 @@ public interface ResponseMapper {
 
   @Mapping(source = "user.login", target = "author")
   @Mapping(source = "title", target = "title")
-  @Mapping(source = "base.repo.description", target = "description")
+  @Mapping(source = "body", target = "description")
   @Mapping(source = "state", target = "status", qualifiedByName = "getStatus")
   PullRequestDto pullRequestToDto(PullRequest pullRequest);
 

@@ -27,7 +27,7 @@ public class PullRequest {
   private boolean locked;
   private String title;
   private User user;
-  private Object body;
+  private String body;
   private ZonedDateTime created_at;
   private ZonedDateTime updated_at;
   private Object closed_at;
