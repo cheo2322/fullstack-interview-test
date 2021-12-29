@@ -38,6 +38,7 @@ public interface ResponseMapper {
   @Mapping(source = "title", target = "title")
   @Mapping(source = "body", target = "description")
   @Mapping(source = "state", target = "status", qualifiedByName = "getStatus")
+  @Mapping(source = "number", target = "number")
   PullRequestDto pullRequestToDto(PullRequest pullRequest);
 
   @Named("getStatus")

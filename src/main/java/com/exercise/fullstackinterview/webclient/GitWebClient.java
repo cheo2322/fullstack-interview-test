@@ -33,7 +33,9 @@ public class GitWebClient {
       String token) {
     return (RequestBodySpec) this.webClient
         .get()
-        .uri(uriBuilder -> uriBuilder.path("/repos/{user}/{repo}".concat(uri)).build(user, repo))
+        .uri(uriBuilder -> uriBuilder.path("/repos/{user}/{repo}".concat(uri))
+            .queryParam("state", "all")
+            .build(user, repo))
         .headers(httpHeaders -> httpHeaders.setBearerAuth(token));
   }
 
@@ -47,8 +49,8 @@ public class GitWebClient {
         .bodyToMono(CommitResponse.class);
   }
 
-  public Flux<PullRequest> getPullRequest(String user, String repo, String token, String number) {
-    return get("/pulls".concat(number), user, repo, token)
+  public Flux<PullRequest> getAllPullRequests(String user, String repo, String token) {
+    return get("/pulls", user, repo, token)
         .bodyToFlux(PullRequest.class);
   }
 
@@ -58,7 +60,7 @@ public class GitWebClient {
         .onStatus(HttpStatus::isError, clientResponse -> clientResponse.bodyToMono(GitError.class)
             .flatMap(errorBody ->
                 Mono.error(new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                    errorBody.getDocumentation_url())))
+                    errorBody.getMessage())))
         );
   }
 

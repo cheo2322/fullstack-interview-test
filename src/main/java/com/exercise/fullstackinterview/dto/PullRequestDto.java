@@ -23,4 +23,5 @@ public class PullRequestDto {
   private String title;
   private String description;
   private Status status;
+  private int number;
 }
