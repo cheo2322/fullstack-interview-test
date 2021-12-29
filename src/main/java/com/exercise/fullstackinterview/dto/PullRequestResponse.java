@@ -1,6 +1,5 @@
 package com.exercise.fullstackinterview.dto;
 
-import com.exercise.fullstackinterview.dto.PullRequestDto.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,11 +11,8 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PRRequest {
+public class PullRequestResponse {
 
-  private String title;
-  private String body;
-  private String head;
-  private String base;
-  private Status status;
+  private int number;
+  private int id;
 }

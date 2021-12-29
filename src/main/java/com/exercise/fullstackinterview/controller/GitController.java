@@ -2,6 +2,7 @@ package com.exercise.fullstackinterview.controller;
 
 import com.exercise.fullstackinterview.dto.BranchDto;
 import com.exercise.fullstackinterview.dto.CommitDto;
+import com.exercise.fullstackinterview.dto.MergeDto;
 import com.exercise.fullstackinterview.dto.PRRequest;
 import com.exercise.fullstackinterview.dto.PullRequestDto;
 import com.exercise.fullstackinterview.dto.SimpleCommitDto;
@@ -61,8 +62,9 @@ public class GitController {
   }
 
   @PostMapping("/pull")
+  @ResponseBody
   @ResponseStatus(HttpStatus.CREATED)
-  public Mono<Void> createPull(@RequestBody Mono<PRRequest> pullRequestDto,
+  public Mono<MergeDto> createPull(@RequestBody PRRequest pullRequestDto,
       @RequestParam String user, @RequestParam String repo, @RequestHeader String token) {
     return gitService.createPull(pullRequestDto, user, repo, token);
   }

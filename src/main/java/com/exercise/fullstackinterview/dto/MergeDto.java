@@ -1,6 +1,5 @@
-package com.exercise.fullstackinterview.model.error;
+package com.exercise.fullstackinterview.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,9 +11,9 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class GitError {
+public class MergeDto {
 
+  private String sha;
+  private boolean merged;
   private String message;
-  @JsonProperty("documentation_url")
-  private String documentationUrl;
 }

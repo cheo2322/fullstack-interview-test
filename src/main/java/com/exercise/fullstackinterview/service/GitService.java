@@ -2,8 +2,10 @@ package com.exercise.fullstackinterview.service;
 
 import com.exercise.fullstackinterview.dto.BranchDto;
 import com.exercise.fullstackinterview.dto.CommitDto;
+import com.exercise.fullstackinterview.dto.MergeDto;
 import com.exercise.fullstackinterview.dto.PRRequest;
 import com.exercise.fullstackinterview.dto.PullRequestDto;
+import com.exercise.fullstackinterview.dto.PullRequestDto.Status;
 import com.exercise.fullstackinterview.dto.SimpleCommitDto;
 import com.exercise.fullstackinterview.mapper.ResponseMapper;
 import com.exercise.fullstackinterview.webclient.GitWebClient;
@@ -48,8 +50,18 @@ public class GitService {
         .map(pullRequest -> responseMapper.pullRequestToDto(pullRequest));
   }
 
-  public Mono<Void> createPull(Mono<PRRequest> pullRequestDto, String user, String repo,
-      String token) {
-    return gitWebClient.createPull(pullRequestDto, user, repo, token);
+  public Mono<MergeDto> createPull(PRRequest pullRequest, String user, String repo, String token) {
+    return gitWebClient.createPull(pullRequest, user, repo, token).map(pullRequestResponse -> {
+          if (pullRequest.getStatus().equals(Status.MERGED)) {
+            return gitWebClient.mergePull(user, repo, token, pullRequestResponse.getNumber());
+          }
+
+          return Mono.just(MergeDto.builder()
+              .sha(String.valueOf(pullRequestResponse.getId()))
+              .message(Status.OPEN.toString())
+              .merged(false)
+              .build());
+        }
+    ).flatMap(mergeDtoMono -> mergeDtoMono);
   }
 }

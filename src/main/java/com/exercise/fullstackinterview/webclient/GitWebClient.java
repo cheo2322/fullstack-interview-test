@@ -1,6 +1,8 @@
 package com.exercise.fullstackinterview.webclient;
 
+import com.exercise.fullstackinterview.dto.MergeDto;
 import com.exercise.fullstackinterview.dto.PRRequest;
+import com.exercise.fullstackinterview.dto.PullRequestResponse;
 import com.exercise.fullstackinterview.model.branches.Branch;
 import com.exercise.fullstackinterview.model.commit.CommitResponse;
 import com.exercise.fullstackinterview.model.error.GitError;
@@ -54,24 +56,32 @@ public class GitWebClient {
         .bodyToFlux(PullRequest.class);
   }
 
-  private ResponseSpec get(String uri, String user, String repo, String token) {
-    return setUpGetWebClient(uri, user, repo, token)
-        .retrieve()
-        .onStatus(HttpStatus::isError, clientResponse -> clientResponse.bodyToMono(GitError.class)
-            .flatMap(errorBody ->
-                Mono.error(new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                    errorBody.getMessage())))
-        );
+  public Mono<PullRequest> getPullRequest(String user, String repo, String token, int number) {
+    return get("/pulls".concat("/").concat(String.valueOf(number)), user, repo, token)
+        .bodyToMono(PullRequest.class);
   }
 
-  public Mono<Void> createPull(Mono<PRRequest> pullRequestDto, String user, String repo,
-      String token) {
+  public Mono<MergeDto> mergePull(String user, String repo, String token, int pullNumber) {
+    return this.webClient
+        .put()
+        .uri(uriBuilder -> uriBuilder.path("/repos/{user}/{repo}/pulls/{pullNumber}/merge")
+            .build(user, repo, pullNumber))
+        .headers(httpHeaders -> httpHeaders.setBearerAuth(token))
+        .retrieve()
+        .onStatus(HttpStatus::isError, clientResponse -> clientResponse.bodyToMono(GitError.class)
+            .flatMap(gitError -> Mono.error(
+                new ResponseStatusException(clientResponse.statusCode(), gitError.getMessage()))))
+        .bodyToMono(MergeDto.class);
+  }
+
+  public Mono<PullRequestResponse> createPull(PRRequest pullRequestDto, String user,
+      String repo, String token) {
 
     return this.webClient
         .post()
         .uri(uriBuilder -> uriBuilder.path("/repos/{user}/{repo}/pulls").build(user, repo))
         .headers(httpHeaders -> httpHeaders.setBearerAuth(token))
-        .body(pullRequestDto, PRRequest.class)
+        .body(Mono.just(pullRequestDto), PRRequest.class)
         .retrieve()
         .onStatus(HttpStatus::isError, clientResponse -> {
           if (clientResponse.statusCode() == HttpStatus.UNPROCESSABLE_ENTITY) {
@@ -80,12 +90,22 @@ public class GitWebClient {
                     Mono.error(new ResponseStatusException(clientResponse.statusCode(),
                         pullError.getErrors().get(0).getMessage())));
           }
+
           return clientResponse.bodyToMono(GitError.class)
               .flatMap(gitError ->
                   Mono.error(new ResponseStatusException(clientResponse.statusCode(),
                       gitError.getMessage())));
         })
-        .toBodilessEntity()
-        .flatMap(voidResponseEntity -> Mono.empty());
+        .bodyToMono(PullRequestResponse.class);
+  }
+
+  private ResponseSpec get(String uri, String user, String repo, String token) {
+    return setUpGetWebClient(uri, user, repo, token)
+        .retrieve()
+        .onStatus(HttpStatus::isError, clientResponse -> clientResponse.bodyToMono(GitError.class)
+            .flatMap(errorBody ->
+                Mono.error(new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    errorBody.getMessage())))
+        );
   }
 }
