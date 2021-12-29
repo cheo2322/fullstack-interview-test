@@ -1,8 +1,10 @@
 package com.exercise.fullstackinterview.webclient;
 
+import com.exercise.fullstackinterview.dto.PRRequest;
 import com.exercise.fullstackinterview.model.branches.Branch;
 import com.exercise.fullstackinterview.model.commit.CommitResponse;
 import com.exercise.fullstackinterview.model.error.GitError;
+import com.exercise.fullstackinterview.model.error.pullerror.PullError;
 import com.exercise.fullstackinterview.model.pullrequest.PullRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
@@ -32,8 +34,7 @@ public class GitWebClient {
     return (RequestBodySpec) this.webClient
         .get()
         .uri(uriBuilder -> uriBuilder.path("/repos/{user}/{repo}".concat(uri)).build(user, repo))
-        .headers(
-            httpHeaders -> httpHeaders.setBearerAuth(token));
+        .headers(httpHeaders -> httpHeaders.setBearerAuth(token));
   }
 
   public Flux<Branch> getAllBranches(String user, String repo, String token) {
@@ -59,5 +60,30 @@ public class GitWebClient {
                 Mono.error(new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     errorBody.getDocumentation_url())))
         );
+  }
+
+  public Mono<Void> createPull(Mono<PRRequest> pullRequestDto, String user, String repo,
+      String token) {
+
+    return this.webClient
+        .post()
+        .uri(uriBuilder -> uriBuilder.path("/repos/{user}/{repo}/pulls").build(user, repo))
+        .headers(httpHeaders -> httpHeaders.setBearerAuth(token))
+        .body(pullRequestDto, PRRequest.class)
+        .retrieve()
+        .onStatus(HttpStatus::isError, clientResponse -> {
+          if (clientResponse.statusCode() == HttpStatus.UNPROCESSABLE_ENTITY) {
+            return clientResponse.bodyToMono(PullError.class)
+                .flatMap(pullError ->
+                    Mono.error(new ResponseStatusException(clientResponse.statusCode(),
+                        pullError.getErrors().get(0).getMessage())));
+          }
+          return clientResponse.bodyToMono(GitError.class)
+              .flatMap(gitError ->
+                  Mono.error(new ResponseStatusException(clientResponse.statusCode(),
+                      gitError.getMessage())));
+        })
+        .toBodilessEntity()
+        .flatMap(voidResponseEntity -> Mono.empty());
   }
 }

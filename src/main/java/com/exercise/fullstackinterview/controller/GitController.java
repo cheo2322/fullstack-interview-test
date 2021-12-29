@@ -2,6 +2,7 @@ package com.exercise.fullstackinterview.controller;
 
 import com.exercise.fullstackinterview.dto.BranchDto;
 import com.exercise.fullstackinterview.dto.CommitDto;
+import com.exercise.fullstackinterview.dto.PRRequest;
 import com.exercise.fullstackinterview.dto.PullRequestDto;
 import com.exercise.fullstackinterview.dto.SimpleCommitDto;
 import com.exercise.fullstackinterview.service.GitService;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -55,5 +58,12 @@ public class GitController {
   public Flux<PullRequestDto> getPulls(@RequestParam String user, @RequestParam String repo,
       @RequestHeader String token) {
     return gitService.getPullRequestDto(user, repo, token);
+  }
+
+  @PostMapping("/pull")
+  @ResponseStatus(HttpStatus.CREATED)
+  public Mono<Void> createPull(@RequestBody Mono<PRRequest> pullRequestDto,
+      @RequestParam String user, @RequestParam String repo, @RequestHeader String token) {
+    return gitService.createPull(pullRequestDto, user, repo, token);
   }
 }
