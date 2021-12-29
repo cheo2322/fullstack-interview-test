@@ -41,7 +41,7 @@ public class GitController {
   @ResponseStatus(HttpStatus.OK)
   public Flux<SimpleCommitDto> getCommits(@RequestParam String branch, @RequestParam String user,
       @RequestParam String repo, @RequestHeader String token) {
-    return gitService.get(branch, user, repo, token);
+    return gitService.getCommits(branch, user, repo, token);
   }
 
   @GetMapping("/commits/{sha}")

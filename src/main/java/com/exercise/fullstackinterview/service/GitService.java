@@ -26,7 +26,7 @@ public class GitService {
         .map(branch -> BranchDto.builder().name(branch.name).build());
   }
 
-  public Flux<SimpleCommitDto> get(String branch, String user, String repo, String token) {
+  public Flux<SimpleCommitDto> getCommits(String branch, String user, String repo, String token) {
     return gitWebClient.getCommit(branch, user, repo, token)
         .expand(response -> {
           if (response.getParents().isEmpty()) {
