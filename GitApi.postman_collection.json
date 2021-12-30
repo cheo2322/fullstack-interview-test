@@ -1,0 +1,251 @@
+{
+	"info": {
+		"_postman_id": "39ba30d9-d2f4-41bd-b8bd-563a4e471070",
+		"name": "GitApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Branches",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "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",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/git-wrapper/branches?user=cheo2322&repo=fullstack-interview-test",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"git-wrapper",
+						"branches"
+					],
+					"query": [
+						{
+							"key": "user",
+							"value": "cheo2322"
+						},
+						{
+							"key": "repo",
+							"value": "fullstack-interview-test"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ListCommits",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "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",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/git-wrapper/commits?branch=features/full-stack-interview&user=cheo2322&repo=fullstack-interview-test",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"git-wrapper",
+						"commits"
+					],
+					"query": [
+						{
+							"key": "branch",
+							"value": "features/full-stack-interview"
+						},
+						{
+							"key": "user",
+							"value": "cheo2322"
+						},
+						{
+							"key": "repo",
+							"value": "fullstack-interview-test"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Commit",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "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",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/git-wrapper/commits/3e489f26eb5eaca5e66812223f00dc33185dd9ed?user=cheo2322&repo=fullstack-interview-test",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"git-wrapper",
+						"commits",
+						"3e489f26eb5eaca5e66812223f00dc33185dd9ed"
+					],
+					"query": [
+						{
+							"key": "user",
+							"value": "cheo2322"
+						},
+						{
+							"key": "repo",
+							"value": "fullstack-interview-test"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PR",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "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",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/git-wrapper/pulls?user=cheo2322&repo=fullstack-interview-test",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"git-wrapper",
+						"pulls"
+					],
+					"query": [
+						{
+							"key": "user",
+							"value": "cheo2322"
+						},
+						{
+							"key": "repo",
+							"value": "fullstack-interview-test"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PostPR",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "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",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/vnd.github.v3+json",
+						"type": "string",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Testing PR post from API 5\",\r\n    \"body\" : \"This is a description\",\r\n    \"head\": \"features/full-stack-interview\",\r\n    \"base\": \"master\",\r\n    \"status\": \"OPEN\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/git-wrapper/pull?user=cheo2322&repo=fullstack-interview-test",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"git-wrapper",
+						"pull"
+					],
+					"query": [
+						{
+							"key": "user",
+							"value": "cheo2322"
+						},
+						{
+							"key": "repo",
+							"value": "fullstack-interview-test"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Git",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "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",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/repos/cheo2322/fullstack-interview-test/commits/features/full-stack-interview",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"repos",
+						"cheo2322",
+						"fullstack-interview-test",
+						"commits",
+						"features",
+						"full-stack-interview"
+					],
+					"query": [
+						{
+							"key": "sha",
+							"value": "features/full-stack-interview",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
