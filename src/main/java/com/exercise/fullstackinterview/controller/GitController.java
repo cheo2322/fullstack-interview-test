@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@CrossOrigin(origins = {"http://localhost:3000", "*"}, maxAge = 3600)
 @RestController
 @RequestMapping("/git-wrapper")
 public class GitController {
@@ -30,7 +31,6 @@ public class GitController {
   @Autowired
   GitService gitService;
 
-  @CrossOrigin("http://localhost:8080")
   @GetMapping("/branches")
   @ResponseBody
   @ResponseStatus(HttpStatus.OK)
@@ -39,7 +39,6 @@ public class GitController {
     return gitService.getAllBranches(user, repo, token);
   }
 
-  @CrossOrigin("http://localhost:8080")
   @GetMapping("/commits")
   @ResponseBody
   @ResponseStatus(HttpStatus.OK)
@@ -48,7 +47,6 @@ public class GitController {
     return gitService.getCommits(branch, user, repo, token);
   }
 
-  @CrossOrigin("http://localhost:8080")
   @GetMapping("/commits/{sha}")
   @ResponseBody
   @ResponseStatus(HttpStatus.OK)
@@ -57,7 +55,6 @@ public class GitController {
     return gitService.getCommit(sha, user, repo, token);
   }
 
-  @CrossOrigin("http://localhost:8080")
   @GetMapping("/pulls")
   @ResponseBody
   @ResponseStatus(HttpStatus.OK)
@@ -66,7 +63,6 @@ public class GitController {
     return gitService.getPullRequestDto(user, repo, token);
   }
 
-  @CrossOrigin("http://localhost:8080")
   @PostMapping("/pull")
   @ResponseBody
   @ResponseStatus(HttpStatus.CREATED)

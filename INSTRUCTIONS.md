@@ -24,10 +24,10 @@ as default just by logistic)
 ```
 > cd .../fullstack-interview-test
 ```
-4. Execute the gradle wrapper included into the repository to create the .jar
+4. Execute the gradle wrapper included into the repository to create the ```.jar```
 which execute the back-end(it is not necessary to install Gradle to execute it)
 ``` 
-> ./gradlew bootJar
+> ./gradlew clean bootJar
 ```
 After execute it, a file named
 ````
