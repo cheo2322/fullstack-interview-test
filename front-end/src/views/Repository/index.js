@@ -27,7 +27,6 @@ const Repository = () => {
           },
         })
         .then((res) => {
-          console.log(res);
           const branches = res.data;
           setBranches(branches);
         });
@@ -39,17 +38,14 @@ const Repository = () => {
   };
 
   const onChangeUsername = (e) => {
-    console.log(credentials.username);
     setUsername(e.target.value);
   };
 
   const onChangeRepository = (e) => {
-    console.log(credentials.repositoryName);
     setRepositoryName(e.target.value);
   };
 
   const onChangeToken = (e) => {
-    console.log(credentials.accessToken);
     setAccessToken(e.target.value);
   };
 

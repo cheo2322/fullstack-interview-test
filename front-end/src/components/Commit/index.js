@@ -34,7 +34,7 @@ const Commit = ({ commit, credentials }) => {
           <br />
           timestamp: {fetchedcommit.timestamp}
           <br />
-          filesChanged: {fetchedcommit.filesChanged}
+          filesChanged: ${fetchedcommit.filesChanged}
           <br />
           author: {fetchedcommit.author}
           <br />
