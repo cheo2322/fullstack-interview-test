@@ -42,3 +42,46 @@ will appear into ```/build/libs``` generated folder
 > java -jar full-stack-interview-0.0.1-SNAPSHOT.jar
 ````
 To execute it is mandatory to have port ```8080``` available.
+
+## Front-end
+
+Front-end part was developed using React. You should follow next steps to
+start the front app:
+
+1. Download and install nodejs LTS version > https://nodejs.org/
+2. Open a new a terminal and go to the base path of the frontend project
+```
+> cd .../fullstack-interview-test/front-end
+```
+3. Use npm to install dependencies
+```
+> npm install
+```
+4. To start the project use npm too
+```
+> npm start
+```
+5. It automatically should appear the front-end running in default browser
+
+![front](/assets/images/asset2.png)
+
+6. For branches, commits and Git info go to the `Repository` tab in Navigation bar.
+
+6.1. Use any existent username, repository and GitHub token.
+
+![repo](/assets/images/asset3.png)
+
+6.2. Username and repo are very easy to obtain, just go to your repo
+and copy/paste it.
+
+![username](/assets/images/asset4.png)
+
+6.3. In order to obtain a GitHub token, just open your GitHub account
+and go to Settings > Developer Settings > Personal access token >
+Generate new token. In the `Note` section just give a nice name to your token
+and then grant ALL permissions to your token (whether you don't do that, some
+actions could fail) just clicking the blank boxes at the left.
+
+![token](/assets/images/asset5png.PNG)
+
+7. The rest is yours!
