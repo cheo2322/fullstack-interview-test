@@ -80,7 +80,10 @@ and copy/paste it.
 and go to Settings > Developer Settings > Personal access token >
 Generate new token. In the `Note` section just give a nice name to your token
 and then grant ALL permissions to your token (whether you don't do that, some
-actions could fail) just clicking the blank boxes at the left.
+actions could fail) just clicking the blank boxes at the left and then
+click the `Generate token` green button. Copy the token and paste it
+into the respective text box (Alert: tokens appear just once, save it to
+use them more times).
 
 ![token](/assets/images/asset5png.PNG)
 
