@@ -9,6 +9,7 @@ import com.exercise.fullstackinterview.dto.SimpleCommitDto;
 import com.exercise.fullstackinterview.service.GitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +30,7 @@ public class GitController {
   @Autowired
   GitService gitService;
 
+  @CrossOrigin("http://localhost:8080")
   @GetMapping("/branches")
   @ResponseBody
   @ResponseStatus(HttpStatus.OK)
@@ -37,6 +39,7 @@ public class GitController {
     return gitService.getAllBranches(user, repo, token);
   }
 
+  @CrossOrigin("http://localhost:8080")
   @GetMapping("/commits")
   @ResponseBody
   @ResponseStatus(HttpStatus.OK)
@@ -45,6 +48,7 @@ public class GitController {
     return gitService.getCommits(branch, user, repo, token);
   }
 
+  @CrossOrigin("http://localhost:8080")
   @GetMapping("/commits/{sha}")
   @ResponseBody
   @ResponseStatus(HttpStatus.OK)
@@ -53,6 +57,7 @@ public class GitController {
     return gitService.getCommit(sha, user, repo, token);
   }
 
+  @CrossOrigin("http://localhost:8080")
   @GetMapping("/pulls")
   @ResponseBody
   @ResponseStatus(HttpStatus.OK)
@@ -61,6 +66,7 @@ public class GitController {
     return gitService.getPullRequestDto(user, repo, token);
   }
 
+  @CrossOrigin("http://localhost:8080")
   @PostMapping("/pull")
   @ResponseBody
   @ResponseStatus(HttpStatus.CREATED)

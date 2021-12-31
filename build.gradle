@@ -22,7 +22,7 @@ dependencies {
 
     implementation "org.mapstruct:mapstruct:1.4.2.Final", 'org.projectlombok:lombok:1.18.22'
     annotationProcessor "org.mapstruct:mapstruct-processor:1.4.2.Final", 'org.projectlombok:lombok:1.18.22', "org.projectlombok:lombok-mapstruct-binding:0.2.0"
-
+    testImplementation 'org.apache.httpcomponents:httpclient'
 }
 
 test {

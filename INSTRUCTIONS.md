@@ -16,7 +16,7 @@ https://www.oracle.com/java/technologies/downloads/#java11-windows
 a lower version may cause troubles.
 2. Clone the repository (use SSH if you prefer)
 ```
-git clone https://github.com/cheo2322/fullstack-interview-test.git
+> git clone https://github.com/cheo2322/fullstack-interview-test.git
 ```
 3. Open a terminal and go to the base path of the project, it will take us
 to the default branch: ```features/full-stack-interview``` (this branch was selected
